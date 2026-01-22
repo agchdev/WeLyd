@@ -1,9 +1,41 @@
 "use client";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { useLanguage } from "../providers";
+
+const targetDate = new Date(2026, 0, 26, 14, 0, 0);
+
+const getTimeLeft = () => {
+    const diff = targetDate.getTime() - Date.now();
+    const total = Math.max(diff, 0);
+    const days = Math.floor(total / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((total / (1000 * 60)) % 60);
+    const seconds = Math.floor((total / 1000) % 60);
+
+    return { days, hours, minutes, seconds };
+};
 
 export default function Hero() {
     const { t } = useLanguage();
+    const [timeLeft, setTimeLeft] = useState(null);
+
+    useEffect(() => {
+        const updateCountdown = () => {
+            setTimeLeft(getTimeLeft());
+        };
+
+        updateCountdown();
+        const interval = setInterval(updateCountdown, 1000);
+        return () => clearInterval(interval);
+    }, []);
+
+    const blocks = [
+        { label: t.countdown.days, value: timeLeft ? String(timeLeft.days).padStart(2, "0") : "--" },
+        { label: t.countdown.hours, value: timeLeft ? String(timeLeft.hours).padStart(2, "0") : "--" },
+        { label: t.countdown.minutes, value: timeLeft ? String(timeLeft.minutes).padStart(2, "0") : "--" },
+        { label: t.countdown.seconds, value: timeLeft ? String(timeLeft.seconds).padStart(2, "0") : "--" },
+    ];
 
     return (
         <section id="home" className="h-screen w-full flex flex-col justify-center items-center relative overflow-hidden bg-grid-pattern">
@@ -41,6 +73,27 @@ export default function Hero() {
                 >
                     {t.hero.subtitle}
                 </motion.p>
+
+                <motion.div
+                    className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.0, duration: 0.8 }}
+                >
+                    {blocks.map((block) => (
+                        <div
+                            key={block.label}
+                            className="rounded-2xl border border-[var(--grid-color)] bg-[var(--background)]/70 px-6 py-5 backdrop-blur-md"
+                        >
+                            <div className="text-4xl md:text-6xl font-black tracking-tight">
+                                {block.value}
+                            </div>
+                            <div className="mt-2 text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-[var(--secondary)]">
+                                {block.label}
+                            </div>
+                        </div>
+                    ))}
+                </motion.div>
             </motion.div>
 
             {/* Floating Elements for "Many Animations" */}
