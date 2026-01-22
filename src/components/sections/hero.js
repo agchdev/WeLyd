@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useLanguage } from "../providers";
 
-const targetDate = new Date(2026, 0, 26, 14, 0, 0);
+const targetDate = new Date(2026, 0, 30, 14, 0, 0);
 
 const getTimeLeft = () => {
     const diff = targetDate.getTime() - Date.now();
@@ -16,11 +16,15 @@ const getTimeLeft = () => {
     return { days, hours, minutes, seconds };
 };
 
-export default function Hero() {
+export default function Hero({ showCountdown = false }) {
     const { t } = useLanguage();
     const [timeLeft, setTimeLeft] = useState(null);
 
     useEffect(() => {
+        if (!showCountdown) {
+            return undefined;
+        }
+
         const updateCountdown = () => {
             setTimeLeft(getTimeLeft());
         };
@@ -28,7 +32,7 @@ export default function Hero() {
         updateCountdown();
         const interval = setInterval(updateCountdown, 1000);
         return () => clearInterval(interval);
-    }, []);
+    }, [showCountdown]);
 
     const blocks = [
         { label: t.countdown.days, value: timeLeft ? String(timeLeft.days).padStart(2, "0") : "--" },
@@ -74,26 +78,28 @@ export default function Hero() {
                     {t.hero.subtitle}
                 </motion.p>
 
-                <motion.div
-                    className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.0, duration: 0.8 }}
-                >
-                    {blocks.map((block) => (
-                        <div
-                            key={block.label}
-                            className="rounded-2xl border border-[var(--grid-color)] bg-[var(--background)]/70 px-6 py-5 backdrop-blur-md"
-                        >
-                            <div className="text-4xl md:text-6xl font-black tracking-tight">
-                                {block.value}
+                {showCountdown && (
+                    <motion.div
+                        className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1.0, duration: 0.8 }}
+                    >
+                        {blocks.map((block) => (
+                            <div
+                                key={block.label}
+                                className="rounded-2xl border border-[var(--grid-color)] bg-[var(--background)]/70 px-6 py-5 backdrop-blur-md"
+                            >
+                                <div className="text-4xl md:text-6xl font-black tracking-tight">
+                                    {block.value}
+                                </div>
+                                <div className="mt-2 text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-[var(--secondary)]">
+                                    {block.label}
+                                </div>
                             </div>
-                            <div className="mt-2 text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-[var(--secondary)]">
-                                {block.label}
-                            </div>
-                        </div>
-                    ))}
-                </motion.div>
+                        ))}
+                    </motion.div>
+                )}
             </motion.div>
 
             {/* Floating Elements for "Many Animations" */}
