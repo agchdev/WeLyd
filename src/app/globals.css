@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  --color-TelegramBlue: #0088cc;
+  --color-TelegramDark: #17212b;
+  --color-WhatsappGreen: #25D366;
+  --color-WhatsappDark: #075E54;
+  
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #000000;
+  --secondary: #666666;
+  --accent: #3b82f6; /* Default accent */
+  --grid-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --primary: #ffffff;
+  --secondary: #a1a1a1;
+  --accent: #60a5fa;
+  --grid-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='blue'] {
+  --background: #17212b; /* Telegram Dark BG */
+  --foreground: #ffffff;
+  --primary: #0088cc;
+  --secondary: #8aa3ba;
+  --accent: #0088cc;
+  --grid-color: rgba(0, 136, 204, 0.1);
+}
+
+[data-theme='green'] {
+  --background: #0b141a; /* WhatsApp Dark BG-ish */
+  --foreground: #e9edef;
+  --primary: #25D366;
+  --secondary: #8696a0;
+  --accent: #25D366;
+  --grid-color: rgba(37, 211, 102, 0.1);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+}
+
+/* Base Utility for Grid Background */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+}
