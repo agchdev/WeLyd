@@ -15,7 +15,7 @@ export function LanguageProvider({ children }) {
     const translations = {
         es: {
             nav: { home: "Inicio", projects: "Proyectos", plans: "Planes", contact: "Contacto" },
-            hero: { title: "Automatiza.", subtitle: "El Futuro es Ahora." },
+            hero: { title: "Automatiza.", subtitle: "El Futuro es Ahora" },
             countdown: { days: "Dias", hours: "Horas", minutes: "Minutos", seconds: "Segundos" },
             panels: {
                 title: "Paneles en accion",
