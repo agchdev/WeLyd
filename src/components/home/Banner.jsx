@@ -82,7 +82,7 @@ const Banner = () => {
                     animate={reduceMotion ? { opacity: 1, y: 0 } : phoneControls}
                 />
                 <motion.div
-                    className='z-0 w-[95%] m-auto bg-sky-300 h-[400px] max-w-[1200px] rounded-[50px]'
+                    className='z-0 w-[95%] m-auto bg-[#1C1D3C] h-[400px] max-w-[1200px] rounded-[50px]'
                     style={enableReveal ? { transformOrigin: 'center' } : undefined}
                     variants={enableReveal ? mobileReveal : undefined}
                     initial={enableReveal ? 'hidden' : false}

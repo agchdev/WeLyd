@@ -1,5 +1,8 @@
 
+
 import Banner from "@/components/home/Banner";
+import ChatDemo from "@/components/home/ChatDemo";
+import Features from "@/components/home/Features";
 import Header from "@/components/Header";
 import Hero from "@/components/sections/hero";
 
@@ -13,9 +16,11 @@ export default function Home() {
       {isCountdown ? <Hero /> :
         <>
           <Header />
-          <Banner/>
+          <Banner />
+          <ChatDemo />
+          <Features />
         </>
-       }
+      }
     </main>
   );
 }
