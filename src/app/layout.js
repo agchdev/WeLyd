@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "WeLyd | Automatizaciones & Desarrollo",
   description: "Agencia de automatización, desarrollo web y apps.",
+  icons: {
+    icon: "/logoWelydAzul.png",
+    shortcut: "/logoWelydAzul.png",
+    apple: "/logoWelydAzul.png",
+  },
 };
 
 export default function RootLayout({ children }) {
