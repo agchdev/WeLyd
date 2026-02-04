@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react'
-import { motion, useReducedMotion, AnimatePresence } from 'framer-motion'
+import { motion, useReducedMotion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion'
 
 const TypingIndicator = () => {
     return (
@@ -142,6 +142,19 @@ const ChatDemo = () => {
     const [appointmentConfirmed, setAppointmentConfirmed] = useState(false)
     const [cycleKey, setCycleKey] = useState(0) // Key to reset component state completely
 
+    // Parallax Setup
+    const sectionRef = React.useRef(null)
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start end", "end start"]
+    })
+
+    // Smooth parallax movement
+    const rawY = useTransform(scrollYProgress, [0, 1], [-140, 140])
+    const y = useSpring(rawY, { stiffness: 60, damping: 20, mass: 0.8 })
+    const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.15, 1.25, 1.15])
+
+
     const messages = [
         {
             id: 1,
@@ -239,68 +252,82 @@ const ChatDemo = () => {
         visible: reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 500, damping: 30 } }
     }
 
+    const parallaxStyle = reduceMotion ? undefined : { y, scale }
+
     return (
-        <section className='bg-gradient-to-b from-white to-gray-50 w-full py-16 md:py-24 flex justify-center items-center overflow-hidden'>
-            <div className='w-full max-w-5xl px-4 md:px-6'>
+        <section
+            ref={sectionRef}
+            className='relative bg-gradient-to-b from-white to-gray-50 w-full py-16 md:py-24 flex justify-center items-center overflow-hidden'
+        >
+            <motion.img
+                src="/personaDescansando.jpg"
+                alt=""
+                aria-hidden="true"
+                className='pointer-events-none select-none absolute inset-0 w-full h-full object-cover object-center opacity-25'
+                style={parallaxStyle}
+            />
+            <div className='relative z-10 w-full max-w-5xl px-4 md:px-6'>
                 <div className='flex flex-col md:flex-row gap-6 md:gap-8 items-stretch justify-center h-[600px]'>
 
                     {/* LEFT PANEL: Chat */}
                     <div className='w-full md:w-1/2 flex flex-col'>
                         <div className='bg-white/80 backdrop-blur-sm rounded-3xl p-6 md:p-8 shadow-xl border border-gray-100 h-full flex flex-col'>
-                            {/* Chat Header */}
-                            <div className='flex items-center mb-6 pb-4 border-b border-gray-50'>
-                                <div className='w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center shadow-md mr-3'>
-                                    <svg className='w-6 h-6 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-                                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z' />
-                                    </svg>
+                            <div className='flex flex-col h-full'>
+                                {/* Chat Header */}
+                                <div className='flex items-center mb-6 pb-4 border-b border-gray-50'>
+                                    <div className='w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center shadow-md mr-3'>
+                                        <svg className='w-6 h-6 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                                            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z' />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 className='font-bold text-gray-800 text-sm'>Asistente WeLyd</h3>
+                                        <p className='text-xs text-green-500 flex items-center gap-1 font-medium'>
+                                            <span className='w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse'></span>
+                                            En línea
+                                        </p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 className='font-bold text-gray-800 text-sm'>Asistente WeLyd</h3>
-                                    <p className='text-xs text-green-500 flex items-center gap-1 font-medium'>
-                                        <span className='w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse'></span>
-                                        En línea
-                                    </p>
-                                </div>
-                            </div>
 
-                            {/* Messages Area */}
-                            <div className='flex-1 space-y-4 overflow-y-auto pr-2 custom-scrollbar'>
-                                <AnimatePresence mode='popLayout'>
-                                    {messages.slice(0, visibleMessages).map((message) => (
-                                        <motion.div
-                                            key={`${cycleKey}-${message.id}`}
-                                            className={`flex ${message.isUser ? 'justify-start' : 'justify-end'}`}
-                                            initial="hidden"
-                                            animate="visible"
-                                            variants={messageVariants}
-                                            layout
-                                        >
-                                            <div className={`
+                                {/* Messages Area */}
+                                <div className='flex-1 space-y-4 overflow-y-auto pr-2 custom-scrollbar'>
+                                    <AnimatePresence mode='popLayout'>
+                                        {messages.slice(0, visibleMessages).map((message) => (
+                                            <motion.div
+                                                key={`${cycleKey}-${message.id}`}
+                                                className={`flex ${message.isUser ? 'justify-start' : 'justify-end'}`}
+                                                initial="hidden"
+                                                animate="visible"
+                                                variants={messageVariants}
+                                                layout
+                                            >
+                                                <div className={`
                                                 max-w-[90%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed
                                                 ${message.isUser
-                                                    ? 'bg-gray-100 text-gray-800 rounded-tl-sm'
-                                                    : 'bg-gradient-to-br from-indigo-500 to-indigo-600 text-white rounded-tr-sm shadow-md shadow-indigo-100'
-                                                }
+                                                        ? 'bg-gray-100 text-gray-800 rounded-tl-sm'
+                                                        : 'bg-gradient-to-br from-indigo-500 to-indigo-600 text-white rounded-tr-sm shadow-md shadow-indigo-100'
+                                                    }
                                             `}>
-                                                {message.text}
-                                            </div>
-                                        </motion.div>
-                                    ))}
+                                                    {message.text}
+                                                </div>
+                                            </motion.div>
+                                        ))}
 
-                                    {isTyping && (
-                                        <motion.div
-                                            key="typing"
-                                            className='flex justify-end'
-                                            initial={{ opacity: 0, scale: 0.9 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            exit={{ opacity: 0, scale: 0.9 }}
-                                        >
-                                            <div className='bg-white border border-gray-100 rounded-2xl rounded-tr-sm shadow-sm'>
-                                                <TypingIndicator />
-                                            </div>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
+                                        {isTyping && (
+                                            <motion.div
+                                                key="typing"
+                                                className='flex justify-end'
+                                                initial={{ opacity: 0, scale: 0.9 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                exit={{ opacity: 0, scale: 0.9 }}
+                                            >
+                                                <div className='bg-white border border-gray-100 rounded-2xl rounded-tr-sm shadow-sm'>
+                                                    <TypingIndicator />
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
                             </div>
                         </div>
                     </div>
