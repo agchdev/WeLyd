@@ -257,7 +257,7 @@ const ChatDemo = () => {
     return (
         <section
             ref={sectionRef}
-            className='relative bg-gradient-to-b from-white to-gray-50 w-full py-16 md:py-24 flex justify-center items-center overflow-hidden'
+            className='relative bg-gradient-to-b from-white to-gray-50 w-full py-20 md:py-28 lg:py-32 flex justify-center items-center overflow-hidden'
         >
             <motion.img
                 src="/personaDescansando.jpg"
@@ -267,12 +267,12 @@ const ChatDemo = () => {
                 style={parallaxStyle}
             />
             <div className='relative z-10 w-full max-w-5xl px-4 md:px-6'>
-                <div className='flex flex-col md:flex-row gap-6 md:gap-8 items-stretch justify-center h-[600px]'>
+                <div className='flex flex-col md:flex-row gap-6 md:gap-8 items-stretch justify-center md:h-[600px]'>
 
                     {/* LEFT PANEL: Chat */}
-                    <div className='w-full md:w-1/2 flex flex-col'>
-                        <div className='bg-white/80 backdrop-blur-sm rounded-3xl p-6 md:p-8 shadow-xl border border-gray-100 h-full flex flex-col'>
-                            <div className='flex flex-col h-full'>
+                    <div className='w-full md:w-1/2 flex flex-col h-[560px] sm:h-[600px] md:h-full'>
+                        <div className='bg-white/80 backdrop-blur-sm rounded-3xl p-6 md:p-8 shadow-xl border border-gray-100 h-full flex flex-col min-h-0'>
+                            <div className='flex flex-col h-full min-h-0'>
                                 {/* Chat Header */}
                                 <div className='flex items-center mb-6 pb-4 border-b border-gray-50'>
                                     <div className='w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center shadow-md mr-3'>
@@ -333,7 +333,7 @@ const ChatDemo = () => {
                     </div>
 
                     {/* RIGHT PANEL: Appointment Dashboard */}
-                    <div className='w-full md:w-1/2 flex flex-col'>
+                    <div className='w-full md:w-1/2 flex flex-col h-[560px] sm:h-[600px] md:h-full'>
                         {/* Connection Line (Visual only on desktop) */}
                         <div className={`hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-1 bg-indigo-200 transition-opacity duration-500 ${appointmentConfirmed ? 'opacity-100' : 'opacity-0'}`}></div>
 

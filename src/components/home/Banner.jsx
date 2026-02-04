@@ -65,10 +65,10 @@ const Banner = () => {
                 whileInView='show'
                 viewport={{ once: true, amount: 0.6 }}
             >
-                <motion.h1 className='text-[140px] md:text-[200px] lg:text-[250px] -my-10' variants={textItem}>
+                <motion.h1 className='text-[120px] md:text-[200px] lg:text-[250px] -my-10' variants={textItem}>
                     WeLyd
                 </motion.h1>
-                <motion.h2 className='text-[60px] md:text-[100px] lg:text-[130px] mt-8 md:-mt-10 lg:-mt-15' variants={textItem}>
+                <motion.h2 className='text-[40px] md:text-[100px] lg:text-[130px] mt-8 md:-mt-10 lg:-mt-15' variants={textItem}>
                     El futuro es ahora
                 </motion.h2>
             </motion.div>
