@@ -16,9 +16,13 @@ export const metadata = {
   title: "WeLyd | Automatizaciones & Desarrollo",
   description: "Agencia de automatización, desarrollo web y apps.",
   icons: {
-    icon: "/logoWelydAzul.png",
-    shortcut: "/logoWelydAzul.png",
-    apple: "/logoWelydAzul.png",
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/logoWelydAzul.png", sizes: "180x180", type: "image/png" }],
   },
 };
 
