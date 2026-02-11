@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { motion, useReducedMotion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion'
 
 const TypingIndicator = () => {
@@ -155,7 +155,7 @@ const ChatDemo = () => {
     const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.15, 1.25, 1.15])
 
 
-    const messages = [
+    const messages = useMemo(() => ([
         {
             id: 1,
             text: "Hola 👋 ¿podría pedir una cita para el jueves?",
@@ -196,7 +196,7 @@ const ChatDemo = () => {
             typingDuration: 1600,
             onShow: () => setAppointmentConfirmed(true)
         }
-    ]
+    ]), [])
 
     useEffect(() => {
         let isMounted = true
@@ -204,10 +204,13 @@ const ChatDemo = () => {
         let accumulatedTime = 0
         let totalCycleTime = 0
 
-        // Reset state at start of cycle
-        setVisibleMessages(0)
-        setIsTyping(false)
-        setAppointmentConfirmed(false)
+        const resetTimer = setTimeout(() => {
+            if (!isMounted) return
+            setVisibleMessages(0)
+            setIsTyping(false)
+            setAppointmentConfirmed(false)
+        }, 0)
+        timers.push(resetTimer)
 
         messages.forEach((message, index) => {
             accumulatedTime += message.delay
@@ -245,7 +248,7 @@ const ChatDemo = () => {
             isMounted = false
             timers.forEach(clearTimeout)
         }
-    }, [cycleKey])
+    }, [cycleKey, messages])
 
     const messageVariants = {
         hidden: reduceMotion ? { opacity: 0 } : { opacity: 0, y: 15, scale: 0.9 },

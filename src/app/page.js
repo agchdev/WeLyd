@@ -2,6 +2,7 @@
 
 import Banner from "@/components/home/Banner";
 import ChatDemo from "@/components/home/ChatDemo";
+import ContactForm from "@/components/home/ContactForm";
 import Features from "@/components/home/Features";
 import Header from "@/components/Header";
 import Hero from "@/components/sections/hero";
@@ -19,6 +20,7 @@ export default function Home() {
           <Banner />
           <ChatDemo />
           <Features />
+          <ContactForm />
         </>
       }
     </main>

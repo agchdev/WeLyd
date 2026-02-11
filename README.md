@@ -36,3 +36,11 @@ Abre `http://localhost:3000` y edita `src/app/page.js` para ver cambios en calie
 ## Deploy
 Listo para desplegar en Vercel. Solo conecta el repo y publica.
 
+## Formulario de contacto
+La landing incluye un formulario conectado a `POST /api/contact`.
+
+Para reenviar los mensajes a tu stack (n8n, Make, Zapier, Slack webhook, etc.), define:
+
+```bash
+CONTACT_FORM_WEBHOOK_URL=https://tu-endpoint.com/contact
+```
